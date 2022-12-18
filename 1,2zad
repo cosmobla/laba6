@@ -1,0 +1,75 @@
+'''1'''
+a = input().split()
+f = []
+l = []
+for i in range(len(a)):
+    if a[i] == '(':
+        f.append(a[i])
+        l.append(i)
+    if a[i] == ')':
+        if len(f) == 0:
+            print('Лишняя скобка на', i+1)
+            n = True
+            break
+        if len(f) > 0:
+            if f[-1] == '(':
+                f.pop()
+                l.pop()
+if len(f) == 0 and n == False:
+    print('Последовательность верная')
+if len(f)>0 and n == False:
+    print('Скобка не закрылась на ', l[-1])
+    
+'''2'''
+'''Глубина:'''
+def dfs(sp, sr, graph, visited):
+    if sp == sr:
+        return True
+    if sp in visited:
+        return False
+
+    visited = visited + [sp]
+    for neighbour in graph[sp]:
+        if not neighbour in visited:
+            if dfs(neighbour, sr, graph, visited): 
+                return True
+
+    return False 
+
+graph = {'A': ['B', 'C'],
+         'B': ['A', 'D'],
+         'C': ['A', 'D', 'F', 'E'],
+         'D': ['B', 'C'],
+         'E': ['C', 'F', 'G'],
+         'F': ['C', 'E', 'G'],
+         'G': ['E', 'F', 'H', 'K'],
+         'H': ['G', 'K'],
+         'K': ['G', 'H']}
+print(dfs('A', 'K', graph, []))
+
+Ширина:
+#Рекурсия
+def dfs(sp, sr, graph, visited):
+    if sp == sr:
+        return True
+    if sp in visited:
+        return False
+
+    visited = visited + [sp]
+    for neighbour in graph[sp]:
+        if not neighbour in visited:
+            if dfs(neighbour, sr, graph, visited):
+                return True
+
+    return False
+
+graph = {'A': ['B', 'C'],
+         'B': ['A', 'D'],
+         'C': ['A', 'D', 'F', 'E'],
+         'D': ['B', 'C'],
+         'E': ['C', 'F', 'G'],
+         'F': ['C', 'E', 'G'],
+         'G': ['E', 'F', 'H', 'K'],
+         'H': ['G', 'K'],
+         'K': ['G', 'H']}
+print(dfs('A', 'K', graph, []))
